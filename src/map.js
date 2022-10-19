@@ -9,60 +9,47 @@ import MapGL from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 const MAPBOX_TOKEN  = 'pk.eyJ1IjoiY29kZWxvdmVyNDY1NSIsImEiOiJja3l3dXZ1bmswYzY4MnFxaWZuMzB6bzJ2In0.fc8OZYG7p6jsuXHo5domPA'
 
-
-class Map extends React.Component{
+class Map extends React.Component {
 
  async giveadd(lat,long){
   
-    let add= await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${long},${lat}.json?access_token=pk.eyJ1IjoiY29kZWxvdmVyNDY1NSIsImEiOiJja3l3dXZ1bmswYzY4MnFxaWZuMzB6bzJ2In0.fc8OZYG7p6jsuXHo5domPA
-    `);
-    if(!add.ok)
-    {
+    let add= await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${long},${lat}.json?access_token=pk.eyJ1IjoiY29kZWxvdmVyNDY1NSIsImEiOiJja3l3dXZ1bmswYzY4MnFxaWZuMzB6bzJ2In0.fc8OZYG7p6jsuXHo5domPA`);
+    if(!add.ok) {
         alert("pleas select some location and click submit button ");
         alert(add.status);
     }
-    else
-    {
-     
-   const yoyo=add.json();
-yoyo.then((data) => {
-  console.log(data.features[0].geometry.coordinates[0]);
-  console.log(data.features[0].place_name)
-  localStorage.setItem('add',data.features[0].place_name);
-  window.location="/Homepage";
-  });
+    else { 
+      const yoyo=add.json();
+      yoyo.then((data) => {
+        console.log(data.features[0].geometry.coordinates[0]);
+        console.log(data.features[0].place_name)
+        localStorage.setItem('add',data.features[0].place_name);
+        window.location="/Homepage";
+      });
     }
 }
 
-handleclick(view)
-{ 
+handleclick(view) { 
   localStorage.setItem('latitude',view.latitude);
   localStorage.setItem('longitude',view.longitude);
   let add=this.giveadd(view.latitude,view.longitude);
-  
 }
 
 render() {
   return (
     <div className="Mappopup">
-    <h1>SELECT THE LOCATION WHERE YOU WANTS TO SEARCH TUTORS</h1>
-    <div  className="Map"> 
-   
-    <Mappopup onclick={(view) =>this.handleclick(view)}/>
-    </div>
+      <h1>SELECT THE LOCATION WHERE YOU WANTS TO SEARCH TUTORS</h1>
+      <div  className="Map"> 
+        <Mappopup onclick={(view) =>this.handleclick(view)}/>
+      </div>
     </div>
   )
-}
-
-
-
-
+  }
 }
 
 
 
 const Mappopup = (props) => {
-
     const [viewport, setViewport] = useState({
       latitude: 26.9124,
       longitude:75.7873,
@@ -72,13 +59,9 @@ const Mappopup = (props) => {
     const mapRef = useRef();
     const handleViewportChange = useCallback(
       (newViewport) => setViewport(newViewport),
-      []
-  
-    
+      []  
     );
     
-    
-  
     // if you are happy with Geocoder default settings, you can just use handleViewportChange directly
     const handleGeocoderViewportChange = useCallback(
       (newViewport) => {
