@@ -24,4 +24,4 @@ render(
 
 
     // login page or register page
-    // user has to select some location where he wants to use our servises
+    // user has to select some location where he wants to use our services
